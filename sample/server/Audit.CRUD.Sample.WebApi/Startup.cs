@@ -1,34 +1,46 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Audit.CRUD.Sample.Application;
+using Audit.CRUD.Sample.WebApi.Configurations;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Audit.CRUD.Sample.WebApi
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
-
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public Startup(IConfiguration configuration)
 		{
-			services.AddControllers();
+			var builder = new ConfigurationBuilder()
+				.AddJsonFile("appsettings.json", true, true);
+
+			Configuration = builder.Build();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// WebAPI Config
+			services.AddControllers();
+
+			// Setting DBContexts
+			services.AddDatabaseConfiguration(Configuration);
+
+			// AutoMapper Settings
+			services.AddAutoMapperConfiguration();
+
+			// Swagger Config
+			services.AddSwaggerConfiguration();
+
+			// .NET Native DI Abstraction
+			services.AddDependencyInjectionConfiguration();
+
+			services.AddMediatR(typeof(Startup), typeof(AppModule));
+		}
+
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
@@ -46,6 +58,8 @@ namespace Audit.CRUD.Sample.WebApi
 			{
 				endpoints.MapControllers();
 			});
+
+			app.UseSwaggerSetup();
 		}
 	}
 }
