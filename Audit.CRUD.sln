@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit.CRUD.Sample.Infra.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit.CRUD.Sample.Infra", "sample\server\Audit.CRUD.Sample.Infra\Audit.CRUD.Sample.Infra.csproj", "{610B7A26-8938-4549-A77D-371FA1A1B944}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit.CRUD.Sample.Infra.IoC", "sample\server\Audit.CRUD.Sample.Infra.IoC\Audit.CRUD.Sample.Infra.IoC.csproj", "{BEC12B5D-53E6-41A1-91B6-F4221D4ABE4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{610B7A26-8938-4549-A77D-371FA1A1B944}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{610B7A26-8938-4549-A77D-371FA1A1B944}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{610B7A26-8938-4549-A77D-371FA1A1B944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEC12B5D-53E6-41A1-91B6-F4221D4ABE4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEC12B5D-53E6-41A1-91B6-F4221D4ABE4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEC12B5D-53E6-41A1-91B6-F4221D4ABE4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEC12B5D-53E6-41A1-91B6-F4221D4ABE4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{95586118-F6EE-45E3-9726-4EE2269ED187} = {2E161416-D7C1-4C97-97B3-35BF455ABB53}
 		{8EDFEC1A-35E7-4EFB-B8DB-8977C2BA7C5F} = {BE6A465B-93B1-4223-82FD-B9A4A2A0E40A}
 		{610B7A26-8938-4549-A77D-371FA1A1B944} = {BE6A465B-93B1-4223-82FD-B9A4A2A0E40A}
+		{BEC12B5D-53E6-41A1-91B6-F4221D4ABE4A} = {BE6A465B-93B1-4223-82FD-B9A4A2A0E40A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {361AFADE-B4E1-41B8-B833-C40E254DBDA1}
