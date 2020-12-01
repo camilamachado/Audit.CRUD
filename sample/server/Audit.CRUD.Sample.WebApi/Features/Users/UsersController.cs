@@ -19,6 +19,8 @@ namespace Audit.CRUD.Sample.WebApi.Features.Users
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] UserCreate.Command command)
 		{
+			command.IpAddress = GetRemoteIpAddressIPv4();
+
 			var result = await _mediator.Send(command);
 
 			return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(result.Success);

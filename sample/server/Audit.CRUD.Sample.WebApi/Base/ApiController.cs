@@ -59,5 +59,13 @@ namespace Audit.CRUD.Sample.WebApi.Base
         {
             _errors.Clear();
         }
+
+        protected string GetRemoteIpAddressIPv4()
+        {
+            var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+            var ipAddressIPv4 = remoteIpAddress.MapToIPv4();
+
+            return ipAddressIPv4.ToString();
+        }
     }
 }

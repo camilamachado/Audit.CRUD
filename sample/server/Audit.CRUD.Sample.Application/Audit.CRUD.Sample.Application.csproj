@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Audit.CRUD\Audit.CRUD.csproj" />
     <ProjectReference Include="..\Audit.CRUD.Sample.Domain\Audit.CRUD.Sample.Domain.csproj" />
     <ProjectReference Include="..\Audit.CRUD.Sample.Infra\Audit.CRUD.Sample.Infra.csproj" />
   </ItemGroup>

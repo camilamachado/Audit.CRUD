@@ -8,6 +8,8 @@ using FluentValidation.Results;
 using Audit.CRUD.Sample.Infra.Structs;
 using Audit.CRUD.Sample.Domain.Features.Users;
 using Audit.CRUD.Sample.Domain.Users;
+using Audit.CRUD.Domain;
+using System.Text.Json.Serialization;
 
 namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 {
@@ -18,6 +20,9 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 			public string Name { get; set; }
 			public string Email { get; set; }
 			public string Password { get; set; }
+
+			[JsonIgnore]
+			public string IpAddress {get; set;}
 
 			public ValidationResult Validate()
 			{
@@ -39,11 +44,13 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 		{
 			private readonly IUserRepository _userRepository;
 			private readonly IMapper _mapper;
+			private readonly IAuditCRUD _auditCRUD;
 
-			public Handler(IUserRepository userRepository, IMapper mapper)
+			public Handler(IUserRepository userRepository, IMapper mapper, IAuditCRUD auditCRUD)
 			{
 				_userRepository = userRepository;
 				_mapper = mapper;
+				_auditCRUD = auditCRUD;
 			}
 
 			public async Task<Result<Exception, int>> Handle(Command request, CancellationToken cancellationToken)
@@ -63,6 +70,14 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 				}
 
 				var newUser = addUserCallback.Success;
+
+				await _auditCRUD.Create(user: new UserAuditCRUD(noAuthentication: true),
+										eventName: nameof(UserCreate),
+										currentEntity: newUser,
+										location: typeof(UserCreate).Namespace,
+										ipAddress: request.IpAddress,
+										reason: "sem razão");
+
 
 				return newUser.Id;
 			}

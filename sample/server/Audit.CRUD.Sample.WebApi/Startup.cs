@@ -1,5 +1,7 @@
+using Audit.CRUD.Configurations;
 using Audit.CRUD.Sample.Application;
 using Audit.CRUD.Sample.WebApi.Configurations;
+using Audit.CRUD.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +41,12 @@ namespace Audit.CRUD.Sample.WebApi
 			services.AddDependencyInjectionConfiguration();
 
 			services.AddMediatR(typeof(Startup), typeof(AppModule));
+
+			var elk = new ElasticsearchSettings();
+			elk.Uri = "http://localhost:9200/";
+			elk.Index = "teste";
+
+			services.UseAuditCRUD(elk);
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

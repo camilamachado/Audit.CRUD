@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Audit.CRUD\Audit.CRUD.csproj" />
     <ProjectReference Include="..\Audit.CRUD.Sample.Application\Audit.CRUD.Sample.Application.csproj" />
     <ProjectReference Include="..\Audit.CRUD.Sample.Infra.Data\Audit.CRUD.Sample.Infra.Data.csproj" />
     <ProjectReference Include="..\Audit.CRUD.Sample.Infra.IoC\Audit.CRUD.Sample.Infra.IoC.csproj" />
