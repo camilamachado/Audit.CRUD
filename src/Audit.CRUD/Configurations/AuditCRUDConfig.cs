@@ -9,9 +9,14 @@ namespace Audit.CRUD.Configurations
 {
 	public static class AuditCRUDConfig
 	{
+        /// <summary>
+        /// Main extension method for configuring Audit.CRUD and its dependencies
+        /// </summary>
+		/// <param name="elasticsearchSettings">Connection settings with elasticsearch pool</param>
         public static void UseAuditCRUD(this IServiceCollection services, ElasticsearchSettings elasticsearchSettings)
         {
-            services.AddElasticsearch(elasticsearchSettings);
+            services.AddElasticsearchConfiguration(elasticsearchSettings);
+
             services.AddScoped<AuditCRUDDbContext>();
 
             services.AddScoped<IAuditLogRepository, AuditLogRepository>();

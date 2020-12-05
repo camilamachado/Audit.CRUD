@@ -9,7 +9,11 @@ namespace Audit.CRUD.Configurations
 {
 	public static class ElasticsearchConfig
 	{
-        public static void AddElasticsearch(this IServiceCollection services, ElasticsearchSettings elasticsearchSettings)
+        /// <summary>
+        /// Configures and registers elasticsearch instance
+        /// </summary>
+		/// <param name="elasticsearchSettings">Connection settings with elasticsearch pool</param>
+        public static void AddElasticsearchConfiguration(this IServiceCollection services, ElasticsearchSettings elasticsearchSettings)
         {
             var uri = new Uri(elasticsearchSettings.Uri);
 
