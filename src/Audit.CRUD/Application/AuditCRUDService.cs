@@ -1,11 +1,13 @@
 ﻿using Audit.CRUD.Common.Structs;
 using Audit.CRUD.Domain;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
 namespace Audit.CRUD.Application
 {
+	/// <summary>
+	/// Service to create audit logs according to the action taken (CRUD).
+	/// </summary>
 	public class AuditCRUDService : IAuditCRUD
 	{
 		private readonly IAuditLogRepository _auditRepository;
@@ -15,36 +17,55 @@ namespace Audit.CRUD.Application
 			_auditRepository = auditRepository;
 		}
 
-		public async Task<Result<Exception, Unit>> Create(UserAuditCRUD user, string eventName, object currentEntity, string location, string ipAddress, string reason)
+		public async Task<Result<Exception, Unit>> ActionCreate(string eventName, UserAuditCRUD user, string location, string ipAddress, string reason, object currentEntity)
 		{
-			var auditLog = new AuditLog();
-			auditLog.Timestamp = DateTime.Now;
-			auditLog.User = user;
-			auditLog.EventName = eventName;
-			auditLog.CurrentEntity = JsonConvert.SerializeObject(currentEntity); ;
-			auditLog.Location = location;
-			auditLog.IpAddress = ipAddress;
-			auditLog.Reason = reason;
-			auditLog.Action = Actions.Create;
+			var auditLog = new AuditLog(eventName: eventName,
+										user: user,
+										action: Actions.Create,
+										location: location,
+										ipAddress: ipAddress,
+										reason: reason,
+										currentEntity: currentEntity);
 
-			var addCb = await _auditRepository.AddAsync(auditLog);
+			var auditLogAddedCallback = await PersistLogInDB(auditLog);
+			if (auditLogAddedCallback.IsFailure)
+			{
+				return auditLogAddedCallback.Failure;
+			}
 
 			return Unit.Successful;
 		}
 
-		public Task<Result<Exception, Unit>> Delete()
+		public Task<Result<Exception, Unit>> ActionDelete()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<Result<Exception, Unit>> Read()
+		public Task<Result<Exception, Unit>> ActionRead()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<Result<Exception, Unit>> Update()
+		public Task<Result<Exception, Unit>> ActionUpdate()
 		{
 			throw new NotImplementedException();
+		}
+
+		private async Task<Result<Exception, Unit>> PersistLogInDB(AuditLog auditLog)
+		{
+			var auditLogIsValid = auditLog.Validate();
+			if (auditLogIsValid.IsFailure)
+			{
+				return auditLogIsValid.Failure;
+			}
+
+			var auditLogAddedCallback = await _auditRepository.AddAsync(auditLog);
+			if (auditLogAddedCallback.IsFailure)
+			{
+				return auditLogAddedCallback.Failure;
+			}
+
+			return Unit.Successful;
 		}
 	}
 }
