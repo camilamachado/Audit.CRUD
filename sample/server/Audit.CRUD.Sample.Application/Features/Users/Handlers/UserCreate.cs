@@ -71,7 +71,7 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 
 				var newUser = addUserCallback.Success;
 
-				await _auditCRUD.Create(user: new UserAuditCRUD(noAuthentication: true),
+				await _auditCRUD.ActionCreate(user: new UserAuditCRUD(noAuthentication: true),
 										eventName: nameof(UserCreate),
 										currentEntity: newUser,
 										location: typeof(UserCreate).Namespace,
