@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Audit.CRUD.Repository
 {
+	/// <summary>
+	/// Repository to persist audit logs in the database.
+	/// </summary>
 	public class AuditLogRepository : IAuditLogRepository
 	{
 		private readonly AuditCRUDDbContext _context;
@@ -21,6 +24,7 @@ namespace Audit.CRUD.Repository
 
 			if (!indexResponse.IsValid)
 			{
+				// TODO: validar mensagens caso dê exceção
 				var debugInformation = indexResponse.DebugInformation;
 				var exception = indexResponse.OriginalException;
 
