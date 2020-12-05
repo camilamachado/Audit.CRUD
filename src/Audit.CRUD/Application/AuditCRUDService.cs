@@ -17,7 +17,7 @@ namespace Audit.CRUD.Application
 			_auditRepository = auditRepository;
 		}
 
-		public async Task<Result<Exception, Unit>> ActionCreate(string eventName, UserAuditCRUD user, string location, string ipAddress, string reason, object currentEntity)
+		public async Task<Result<Exception, Unit>> ActionCreate(string eventName, UserAuditCRUD user, string location, string ipAddress, object currentEntity, string reason = "not informed")
 		{
 			var auditLog = new AuditLog(eventName: eventName,
 										user: user,
