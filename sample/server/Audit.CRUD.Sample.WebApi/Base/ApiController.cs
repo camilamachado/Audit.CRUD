@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Audit.CRUD.Sample.Infra.Structs;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Audit.CRUD.Sample.WebApi.Base
 {
@@ -11,11 +11,16 @@ namespace Audit.CRUD.Sample.WebApi.Base
     {
         private readonly ICollection<string> _errors = new List<string>();
 
-        protected ActionResult CustomResponse(object result = null)
+        protected ActionResult CustomResponse<TFailure, TSuccess>(Result<TFailure, TSuccess> result)
         {
-            if (IsOperationValid())
+            if (IsOperationValid() && result.IsSuccess)
             {
-                return Ok(result);
+                return Ok(result.Success);
+			}
+			else
+			{
+                AddError(result.Failure.ToString());
+
             }
 
             return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
@@ -24,25 +29,17 @@ namespace Audit.CRUD.Sample.WebApi.Base
             }));
         }
 
-        protected ActionResult CustomResponse(ModelStateDictionary modelState)
+        protected ActionResult CustomResponse(IList<ValidationFailure> failures)
         {
-            var errors = modelState.Values.SelectMany(e => e.Errors);
-            foreach (var error in errors)
+            foreach (var error in failures)
             {
                 AddError(error.ErrorMessage);
             }
 
-            return CustomResponse();
-        }
-
-        protected ActionResult CustomResponse(ValidationResult validationResult)
-        {
-            foreach (var error in validationResult.Errors)
+            return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                AddError(error.ErrorMessage);
-            }
-
-            return CustomResponse();
+                { "Messages", _errors.ToArray() }
+            }));
         }
 
         protected bool IsOperationValid()

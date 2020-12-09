@@ -46,6 +46,7 @@ namespace Audit.CRUD.Sample.WebApi.Configurations
                     }
                 });
 
+                s.CustomSchemaIds(x => x.FullName);
             });
         }
 
