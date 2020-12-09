@@ -3,14 +3,16 @@ using Audit.CRUD.Sample.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Audit.CRUD.Sample.Infra.Data.Migrations
 {
     [DbContext(typeof(AuditCRUDSampleDbContext))]
-    partial class AuditCRUDSampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201209035224_Add-Entity-Student")]
+    partial class AddEntityStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -71,13 +71,12 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 
 				var newUser = addUserCallback.Success;
 
-				await _auditCRUD.ActionCreate(user: new UserAuditCRUD(noAuthentication: true),
+				await _auditCRUD.ActionCreate(
 										eventName: nameof(UserCreate),
-										currentEntity: newUser,
+										user: new UserAuditCRUD(noAuthentication: true),
 										location: typeof(UserCreate).Namespace,
 										ipAddress: request.IpAddress,
-										reason: "sem razão");
-
+										currentEntity: newUser);
 
 				return newUser.Id;
 			}

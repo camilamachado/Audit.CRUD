@@ -1,12 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Audit.CRUD.Sample.Application.Features.Users.Handlers;
+using Audit.CRUD.Sample.Infra.Structs;
 using Audit.CRUD.Sample.WebApi.Base;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Audit.CRUD.Sample.WebApi.Features.Users
 {
-	[Route("[controller]")]
+	[Route("api/[controller]")]
 	public class UsersController : ApiController
 	{
 		private readonly IMediator _mediator;
@@ -19,11 +23,21 @@ namespace Audit.CRUD.Sample.WebApi.Features.Users
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] UserCreate.Command command)
 		{
+			var result = new Result<Exception, int>();
+			IList<ValidationFailure> errors = new List<ValidationFailure>();
+
 			command.IpAddress = GetRemoteIpAddressIPv4();
 
-			var result = await _mediator.Send(command);
+			if (command.Validate().IsValid)
+			{
+				result = await _mediator.Send(command);
+			}
+			else
+			{
+				errors = command.Validate().Errors;
+			}
 
-			return !ModelState.IsValid ? CustomResponse(ModelState) : CustomResponse(result.Success);
+			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
 		}
 	}
 }
