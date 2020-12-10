@@ -6,11 +6,13 @@ using Audit.CRUD.Sample.Infra.Structs;
 using Audit.CRUD.Sample.WebApi.Base;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unit = Audit.CRUD.Sample.Infra.Structs.Unit;
 
 namespace Audit.CRUD.Sample.WebApi.Features.Students
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	public class StudentsController : ApiController
 	{

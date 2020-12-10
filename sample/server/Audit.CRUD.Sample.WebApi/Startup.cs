@@ -38,6 +38,10 @@ namespace Audit.CRUD.Sample.WebApi
 			// .NET Native DI Abstraction
 			services.AddDependencyInjectionConfiguration();
 
+			// Setting Auth
+			services.AddAuthConfiguration(Configuration);
+
+			// Setting MediaTR
 			services.AddMediatrConfiguration();
 
 			var elk = new ElasticsearchSettings();
@@ -55,6 +59,8 @@ namespace Audit.CRUD.Sample.WebApi
 			}
 
 			app.UseHttpsRedirection();
+
+			app.UseAuthentication();
 
 			app.UseRouting();
 

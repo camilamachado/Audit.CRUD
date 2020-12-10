@@ -4,5 +4,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aloji.AspNetCore.JwtSecurity" Version="1.0.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+    <PackageReference Include="MediatR" Version="6.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Audit.CRUD.Sample.Domain\Audit.CRUD.Sample.Domain.csproj" />
+    <ProjectReference Include="..\Audit.CRUD.Sample.Infra.Data\Audit.CRUD.Sample.Infra.Data.csproj" />
+  </ItemGroup>
+
 
 </Project>

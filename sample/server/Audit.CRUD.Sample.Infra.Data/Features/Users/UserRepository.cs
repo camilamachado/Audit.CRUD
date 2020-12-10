@@ -1,4 +1,5 @@
-﻿using Audit.CRUD.Sample.Domain.Features.Users;
+﻿using Audit.CRUD.Sample.Domain.Exceptions;
+using Audit.CRUD.Sample.Domain.Features.Users;
 using Audit.CRUD.Sample.Domain.Users;
 using Audit.CRUD.Sample.Infra.Data.Context;
 using Audit.CRUD.Sample.Infra.Structs;
@@ -29,6 +30,18 @@ namespace Audit.CRUD.Sample.Infra.Data.Features.Users
 		public async Task<Result<Exception, bool>> HasAnyAsync(User user)
 		{
 			return await _context.Users.AnyAsync(d => d.Email == user.Email || d.Name == user.Name);
+		}
+
+		public async Task<Result<Exception, User>> GetByCredentials(string email, string password)
+		{
+			var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email) && u.Password == password);
+
+			if (user == null)
+			{
+				return new InvalidCredentialsException();
+			}
+
+			return user;
 		}
 	}
 }

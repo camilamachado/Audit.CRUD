@@ -20,5 +20,8 @@ namespace Audit.CRUD.Sample.Domain.Features.Users
 		/// <param name="user">User</param>
 		/// <returns>True if it exists and false if it does not exist</returns>
 		Task<Result<Exception, bool>> HasAnyAsync(User user);
+
+
+		Task<Result<Exception, User>> GetByCredentials(string email, string password);
 	}
 }

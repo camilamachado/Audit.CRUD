@@ -1,9 +1,8 @@
-﻿using Audit.CRUD.Sample.Application.Features.Users;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Audit.CRUD.Sample.WebApi.Configurations
+namespace Audit.CRUD.Sample.Auth.Configurations
 {
     public static class AutoMapperConfig
     {
@@ -11,7 +10,7 @@ namespace Audit.CRUD.Sample.WebApi.Configurations
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            services.AddAutoMapper(typeof(Startup), typeof(MappingProfile));
+            services.AddAutoMapper(typeof(Startup));
         }
     }
 }
