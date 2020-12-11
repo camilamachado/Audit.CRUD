@@ -69,7 +69,7 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 		[Route("{id:int}")]
 		public async Task<IActionResult> Get(int id)
 		{
-			var result = await _mediator.Send(new StudentDetail.Query(id));
+			var result = await _mediator.Send(new StudentDetail.Query(id, GetRemoteIpAddressIPv4(), UserId, Email, UserName));
 
 			return CustomResponse(result);
 		}
