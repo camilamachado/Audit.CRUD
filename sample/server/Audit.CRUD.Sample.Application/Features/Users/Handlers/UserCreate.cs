@@ -79,7 +79,7 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 
 				await _auditCRUD.ActionCreate(
 										eventName: nameof(UserCreate),
-										user: new UserAuditCRUD(noAuthentication: true),
+										user: new UserAuditCRUD(isAnonymous: true),
 										location: typeof(UserCreate).Namespace,
 										ipAddress: request.IpAddress,
 										currentEntity: newUser);

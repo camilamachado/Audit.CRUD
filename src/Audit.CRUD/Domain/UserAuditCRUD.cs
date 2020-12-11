@@ -16,31 +16,31 @@ namespace Audit.CRUD.Domain
 		public string Email { get; private set; }
 
 		/// <summary>
-		/// Action taken does not require authentication.
+		/// The action performed is done by an unauthenticated user.
 		/// When the action is not performed by an authenticated user.
 		/// </summary>
-		public bool NoAuthentication { get; private set; }
+		public bool IsAnonymous { get; private set; }
 
 		/// <summary>
 		/// Constructor of user entity.
 		/// </summary>
 		public UserAuditCRUD()
 		{
-			NoAuthentication = true;
+			IsAnonymous = true;
 		}
 
 		/// <summary>
 		/// Constructor of user entity.
 		/// </summary>
-		/// <param name="noAuthentication">Action taken does not require authentication</param>
-		public UserAuditCRUD(bool noAuthentication)
+		/// <param name="isAnonymous">The action performed is done by an unauthenticated user</param>
+		public UserAuditCRUD(bool isAnonymous)
 		{
-			if (!noAuthentication)
+			if (!isAnonymous)
 			{
-				throw new InvalidUserAuditCrudException("The action taken requires authentication. User data required. Pass the user data(id, name or email) by parameter.");
+				throw new InvalidUserAuditCrudException("The action taken requires authentication. User data is required. Pass user data (id, name or email) by parameter.");
 			}
 
-			NoAuthentication = noAuthentication;
+			IsAnonymous = isAnonymous;
 		}
 
 		/// <summary>
@@ -50,6 +50,7 @@ namespace Audit.CRUD.Domain
 		public UserAuditCRUD(object id)
 		{
 			Id = id.ToString();
+			IsAnonymous = false;
 		}
 
 		/// <summary>
