@@ -6,6 +6,7 @@ using Audit.CRUD.Sample.Infra.Structs;
 using Audit.CRUD.Sample.WebApi.Base;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Audit.CRUD.Sample.WebApi.Features.Users
@@ -20,6 +21,7 @@ namespace Audit.CRUD.Sample.WebApi.Features.Users
 			_mediator = mediator;
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] UserCreate.Command command)
 		{

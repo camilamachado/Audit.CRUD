@@ -10,6 +10,7 @@ using Audit.CRUD.Sample.Domain.Features.Users;
 using Audit.CRUD.Sample.Domain.Users;
 using Audit.CRUD.Domain;
 using System.Text.Json.Serialization;
+using Audit.CRUD.Sample.Domain.Exceptions;
 
 namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 {
@@ -55,13 +56,18 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 
 			public async Task<Result<Exception, int>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				var user = _mapper.Map<User>(request);
-
-				var hasAnyCallback = await _userRepository.HasAnyAsync(user);
+				var hasAnyCallback = await _userRepository.HasAnyByEmailAsync(request.Email);
 				if (hasAnyCallback.IsFailure)
 				{
 					return hasAnyCallback.Failure;
 				}
+
+				if (hasAnyCallback.Success)
+				{
+					return new AlreadyExistsException($"A user already exists with the email { request.Email}.");
+				}
+
+				var user = _mapper.Map<User>(request);
 
 				var addUserCallback = await _userRepository.AddAsync(user);
 				if (addUserCallback.IsFailure)

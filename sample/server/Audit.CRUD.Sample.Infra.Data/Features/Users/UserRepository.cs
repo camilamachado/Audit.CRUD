@@ -27,9 +27,9 @@ namespace Audit.CRUD.Sample.Infra.Data.Features.Users
 			return newUser.Entity;
 		}
 
-		public async Task<Result<Exception, bool>> HasAnyAsync(User user)
+		public async Task<Result<Exception, bool>> HasAnyByEmailAsync(string email)
 		{
-			return await _context.Users.AnyAsync(d => d.Email == user.Email || d.Name == user.Name);
+			return await _context.Users.AnyAsync(d => d.Email == email);
 		}
 
 		public async Task<Result<Exception, User>> GetByCredentials(string email, string password)

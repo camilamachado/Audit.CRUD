@@ -7,6 +7,6 @@ namespace Audit.CRUD.Sample.Domain.Exceptions
 	/// </summary>
 	public class NotFoundException : Exception
 	{
-		public NotFoundException(string menssage) : base(menssage) { }
+		public NotFoundException(string message) : base(message) { }
 	}
 }
