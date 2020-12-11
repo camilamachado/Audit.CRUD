@@ -23,6 +23,15 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 			[JsonIgnore]
 			public string IpAddress { get; set; }
 
+			[JsonIgnore]
+			public int UserId { get; set; }
+
+			[JsonIgnore]
+			public string Email { get; set; }
+
+			[JsonIgnore]
+			public string UserName { get; set; }
+
 			public ValidationResult Validate()
 			{
 				return new Validator().Validate(this);
@@ -66,7 +75,7 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 
 				await _auditCRUD.ActionCreate(
 										eventName: nameof(StudentCreate),
-										user: new UserAuditCRUD(noAuthentication: true),
+										user: new UserAuditCRUD(request.UserId, request.UserName, request.Email),
 										location: typeof(StudentCreate).Namespace,
 										ipAddress: request.IpAddress,
 										currentEntity: newStudent);

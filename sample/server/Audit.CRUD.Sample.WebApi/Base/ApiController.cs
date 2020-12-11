@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Audit.CRUD.Sample.Infra.Structs;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +65,36 @@ namespace Audit.CRUD.Sample.WebApi.Base
             var ipAddressIPv4 = remoteIpAddress.MapToIPv4();
 
             return ipAddressIPv4.ToString();
+        }
+
+        protected int UserId
+        {
+            get { return Convert.ToInt32(GetClaimValue("UserId")); }
+        }
+
+        protected string Email
+        {
+            get { return string.IsNullOrWhiteSpace(GetClaimEmailAddress()) ? string.Empty : GetClaimEmailAddress(); }
+        }
+
+        protected string UserName
+        {
+            get { return string.IsNullOrWhiteSpace(GetClaimName()) ? string.Empty : GetClaimName(); }
+        }
+
+        private string GetClaimValue(string type)
+        {
+            return ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(type)?.Value;
+        }
+
+        private string GetClaimEmailAddress()
+        {
+            return ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.Email)?.Value;
+        }
+
+        private string GetClaimName()
+        {
+            return ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.Name)?.Value;
         }
     }
 }
