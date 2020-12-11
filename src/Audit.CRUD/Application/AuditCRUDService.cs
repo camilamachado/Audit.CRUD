@@ -36,12 +36,26 @@ namespace Audit.CRUD.Application
 			return Unit.Successful;
 		}
 
-		public Task<Result<Exception, Unit>> ActionDelete()
+		public async Task<Result<Exception, Unit>> ActionRead(string eventName, UserAuditCRUD user, string location, string ipAddress, object currentEntity, string reason = "not informed")
 		{
-			throw new NotImplementedException();
+			var auditLog = new AuditLog(eventName: eventName,
+										user: user,
+										action: Actions.Read,
+										location: location,
+										ipAddress: ipAddress,
+										reason: reason,
+										currentEntity: currentEntity);
+
+			var auditLogAddedCallback = await PersistLogInDB(auditLog);
+			if (auditLogAddedCallback.IsFailure)
+			{
+				return auditLogAddedCallback.Failure;
+			}
+
+			return Unit.Successful;
 		}
 
-		public Task<Result<Exception, Unit>> ActionRead()
+		public Task<Result<Exception, Unit>> ActionDelete()
 		{
 			throw new NotImplementedException();
 		}
