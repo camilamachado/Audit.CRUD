@@ -87,28 +87,6 @@ namespace Audit.CRUD.Domain
 		/// <param name="ipAddress">Which device performed the action</param>
 		/// <param name="reason">For what reason</param>
 		/// <param name="currentEntity">Current or updated entity</param>
-		public AuditLog(string eventName, UserAuditCRUD user, string action, string location, string ipAddress, string reason, object currentEntity)
-		{
-			this.Timestamp = DateTime.Now;
-			this.EventName = eventName;
-			this.User = user;
-			this.Action = action;
-			this.Location = location;
-			this.IpAddress = ipAddress;
-			this.Reason = reason;
-			this.CurrentEntity = JsonConvert.SerializeObject(currentEntity);
-		}
-
-		/// <summary>
-		/// Constructor of audit log entity.
-		/// </summary>
-		/// <param name="eventName">Name of the started event</param>
-		/// <param name="user">UserAuditCRUD entity</param>
-		/// <param name="action">Action taken</param>
-		/// <param name="location">Local where the action took place</param>
-		/// <param name="ipAddress">Which device performed the action</param>
-		/// <param name="reason">For what reason</param>
-		/// <param name="currentEntity">Current or updated entity</param>
 		/// <param name="oldEntity">Entity before performing the action</param>
 		public AuditLog(string eventName, UserAuditCRUD user, string action, string location, string ipAddress, string reason, object currentEntity, object oldEntity)
 		{

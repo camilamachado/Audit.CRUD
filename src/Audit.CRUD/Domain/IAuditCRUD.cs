@@ -47,8 +47,15 @@ namespace Audit.CRUD.Domain
 		Task<Result<Exception, Unit>> ActionUpdate(string eventName, UserAuditCRUD user, string location, string ipAddress, object currentEntity, object oldEntity, string reason = "not informed");
 
 		/// <summary>
-		/// TODO
+		/// Method for creating an audit record when deleting an entity.
 		/// </summary>
-		Task<Result<Exception, Unit>> ActionDelete();
+		/// <param name="eventName">Name of the started event</param>
+		/// <param name="user">UserAuditCRUD entity</param>
+		/// <param name="location">Local where the action took place</param>
+		/// <param name="ipAddress">Which device performed the action</param>
+		/// <param name="oldEntity">Entity before being deleted</param>
+		/// <param name="reason">For what reason | optional</param>
+		/// <returns>Exception if problems persist or success</returns>
+		Task<Result<Exception, Unit>> ActionDelete(string eventName, UserAuditCRUD user, string location, string ipAddress, object oldEntity, string reason = "not informed");
 	}
 }

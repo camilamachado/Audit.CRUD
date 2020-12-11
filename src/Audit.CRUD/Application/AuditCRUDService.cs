@@ -25,7 +25,8 @@ namespace Audit.CRUD.Application
 										location: location,
 										ipAddress: ipAddress,
 										reason: reason,
-										currentEntity: currentEntity);
+										currentEntity: currentEntity,
+										oldEntity: null);
 
 			var auditLogAddedCallback = await PersistLogInDB(auditLog);
 			if (auditLogAddedCallback.IsFailure)
@@ -44,7 +45,8 @@ namespace Audit.CRUD.Application
 										location: location,
 										ipAddress: ipAddress,
 										reason: reason,
-										currentEntity: currentEntity);
+										currentEntity: currentEntity,
+										oldEntity: null);
 
 			var auditLogAddedCallback = await PersistLogInDB(auditLog);
 			if (auditLogAddedCallback.IsFailure)
@@ -75,9 +77,24 @@ namespace Audit.CRUD.Application
 			return Unit.Successful;
 		}
 
-		public Task<Result<Exception, Unit>> ActionDelete()
+		public async Task<Result<Exception, Unit>> ActionDelete(string eventName, UserAuditCRUD user, string location, string ipAddress, object oldEntity, string reason = "not informed")
 		{
-			throw new NotImplementedException();
+			var auditLog = new AuditLog(eventName: eventName,
+										user: user,
+										action: Actions.Delete,
+										location: location,
+										ipAddress: ipAddress,
+										reason: reason,
+										currentEntity: null,
+										oldEntity: oldEntity);
+
+			var auditLogAddedCallback = await PersistLogInDB(auditLog);
+			if (auditLogAddedCallback.IsFailure)
+			{
+				return auditLogAddedCallback.Failure;
+			}
+
+			return Unit.Successful;
 		}
 
 		private async Task<Result<Exception, Unit>> PersistLogInDB(AuditLog auditLog)
