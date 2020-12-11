@@ -52,6 +52,10 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 			var result = new Result<Exception, Unit>();
 			IList<ValidationFailure> errors = new List<ValidationFailure>();
 
+			command.IpAddress = GetRemoteIpAddressIPv4();
+			command.UserId = UserId;
+			command.Email = Email;
+			command.UserName = UserName;
 
 			if (command.Validate().IsValid)
 			{

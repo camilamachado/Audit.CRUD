@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Domain object that represents a student.
 	/// </summary>
-	public class Student
+	public class Student : Entity
 	{
 		public int Id { get; set; }
 		public string FirstName { get; set; }
