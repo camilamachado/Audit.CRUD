@@ -1,4 +1,5 @@
-﻿using Audit.CRUD.Sample.Application.Behaviors;
+﻿using Audit.CRUD.Domain;
+using Audit.CRUD.Sample.Application.Behaviors;
 using Audit.CRUD.Sample.Domain.Exceptions;
 using Audit.CRUD.Sample.Domain.Features.Students;
 using Audit.CRUD.Sample.Infra.Structs;
@@ -22,9 +23,22 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
             [JsonIgnore]
             public string IpAddress { get; set; }
 
-            public Command(int id)
+            [JsonIgnore]
+            public int UserId { get; set; }
+
+            [JsonIgnore]
+            public string Email { get; set; }
+
+            [JsonIgnore]
+            public string UserName { get; set; }
+
+            public Command(int id, string ipAddress, int userId, string email, string userName)
             {
                 Id = id;
+                IpAddress = ipAddress;
+                UserId = userId;
+                Email = email;
+                UserName = userName;
             }
 
             public ValidationResult Validate()
@@ -44,10 +58,12 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 		public class Handler : IRequestHandler<Command, Result<Exception, Unit>>
         {
             private readonly IStudentRepository _studentRepository;
+            private readonly IAuditCRUD _auditCRUD;
 
-            public Handler(IStudentRepository studentRepository)
+            public Handler(IStudentRepository studentRepository, IAuditCRUD auditCRUD)
             {
                 _studentRepository = studentRepository;
+                _auditCRUD = auditCRUD;
             }
 
             public async Task<Result<Exception, Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -72,6 +88,13 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
                 {
                     return removeCallback.Failure;
                 }
+
+                await _auditCRUD.ActionDelete(
+                                    eventName: nameof(StudentDelete),
+                                    user: new UserAuditCRUD(request.UserId, request.UserName, request.Email),
+                                    location: typeof(StudentDelete).Namespace,
+                                    ipAddress: request.IpAddress,
+                                    oldEntity: student);
 
                 return removeCallback.Success;
             }

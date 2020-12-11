@@ -82,7 +82,7 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 		[Route("{id:int}")]
 		public async Task<IActionResult> Delete(int id)
 		{
-			var result = await _mediator.Send(new StudentDelete.Command(id));
+			var result = await _mediator.Send(new StudentDelete.Command(id, GetRemoteIpAddressIPv4(), UserId, Email, UserName));
 
 			return CustomResponse(result);
 		}
