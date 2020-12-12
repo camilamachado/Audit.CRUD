@@ -18,5 +18,13 @@
 		{
 			IsActive = true;
 		}
+
+		/// <summary>
+		/// Set the student to disabled.
+		/// </summary>
+		public void SetDisabled()
+		{
+			IsActive = false;
+		}
 	}
 }

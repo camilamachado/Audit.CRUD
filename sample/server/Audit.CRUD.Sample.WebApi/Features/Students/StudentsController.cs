@@ -69,6 +69,31 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
 		}
 
+		[HttpPatch]
+		[Route("{id:int}/disabled")]
+		public async Task<IActionResult> Deactivate(int id, [FromBody] StudentDeactivate.Command command)
+		{
+			var result = new Result<Exception, Unit>();
+			IList<ValidationFailure> errors = new List<ValidationFailure>();
+
+			command.Id = id;
+			command.IpAddress = GetRemoteIpAddressIPv4();
+			command.UserId = UserId;
+			command.Email = Email;
+			command.UserName = UserName;
+
+			if (command.Validate().IsValid)
+			{
+				result = await _mediator.Send(command);
+			}
+			else
+			{
+				errors = command.Validate().Errors;
+			}
+
+			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
+		}
+
 		[HttpGet]
 		[Route("{id:int}")]
 		public async Task<IActionResult> Get(int id)
