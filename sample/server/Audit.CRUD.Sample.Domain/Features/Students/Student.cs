@@ -10,5 +10,13 @@
 		public string LastName { get; set; }
 		public int Age { get; set; }
 		public bool IsActive { get; set; }
+
+		/// <summary>
+		/// Set the student to activated.
+		/// </summary>
+		public void SetActivated()
+		{
+			IsActive = true;
+		}
 	}
 }

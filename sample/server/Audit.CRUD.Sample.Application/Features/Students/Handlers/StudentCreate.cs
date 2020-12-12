@@ -64,6 +64,7 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 			public async Task<Result<Exception, int>> Handle(Command request, CancellationToken cancellationToken)
 			{
 				var student = _mapper.Map<Student>(request);
+				student.SetActivated();
 
 				var addStudentCallback = await _studentRepository.AddAsync(student);
 				if (addStudentCallback.IsFailure)
