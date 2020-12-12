@@ -56,13 +56,13 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 
 			public async Task<Result<Exception, int>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				var hasAnyCallback = await _userRepository.HasAnyByEmailAsync(request.Email);
-				if (hasAnyCallback.IsFailure)
+				var hasAnyUserCallback = await _userRepository.HasAnyByEmailAsync(request.Email);
+				if (hasAnyUserCallback.IsFailure)
 				{
-					return hasAnyCallback.Failure;
+					return hasAnyUserCallback.Failure;
 				}
 
-				if (hasAnyCallback.Success)
+				if (hasAnyUserCallback.Success)
 				{
 					return new AlreadyExistsException($"A user already exists with the email { request.Email}.");
 				}

@@ -68,25 +68,25 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 
             public async Task<Result<Exception, Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var studentCallback = await _studentRepository.GetByIdAsync(request.Id);
-                if (studentCallback.IsFailure)
+                var getStudentCallback = await _studentRepository.GetByIdAsync(request.Id);
+                if (getStudentCallback.IsFailure)
                 {
-                    return studentCallback.Failure;
+                    return getStudentCallback.Failure;
                 }
 
-                if (studentCallback.Success is null)
+                if (getStudentCallback.Success is null)
                 {
                     var errorNotFound = new NotFoundException($"Could not find student with id {request.Id}.");
 
                     return errorNotFound;
                 }
 
-                var student = studentCallback.Success;
+                var student = getStudentCallback.Success;
 
-                var removeCallback = await _studentRepository.DeleteAsync(student);
-                if (removeCallback.IsFailure)
+                var deleteStudentCallback = await _studentRepository.DeleteAsync(student);
+                if (deleteStudentCallback.IsFailure)
                 {
-                    return removeCallback.Failure;
+                    return deleteStudentCallback.Failure;
                 }
 
                 await _auditCRUD.ActionDelete(
@@ -96,7 +96,7 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
                                     ipAddress: request.IpAddress,
                                     oldEntity: student);
 
-                return removeCallback.Success;
+                return deleteStudentCallback.Success;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Audit.CRUD.Domain;
+using Audit.CRUD.Sample.Domain.Exceptions;
 using Audit.CRUD.Sample.Domain.Features.Students;
 using Audit.CRUD.Sample.Infra.Structs;
 using AutoMapper;
@@ -70,6 +71,13 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 
 				if (getStudentCallback.IsFailure)
 					return getStudentCallback.Failure;
+
+				if (getStudentCallback.Success is null)
+				{
+					var errorNotFound = new NotFoundException($"Could not find student with id {request.Id}.");
+
+					return errorNotFound;
+				}
 
 				var oldStudent = getStudentCallback.Success.Clone<Student>();
 

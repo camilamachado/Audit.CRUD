@@ -23,8 +23,13 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 			_mediator = mediator;
 		}
 
+		/// <summary>
+		/// Create a student.
+		/// </summary>
+		/// <param name="command">Command to create a student</param>
+		/// <returns>Created student id</returns>
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] StudentCreate.Command command)
+		public async Task<IActionResult> CreateAsync([FromBody] StudentCreate.Command command)
 		{
 			var result = new Result<Exception, int>();
 			IList<ValidationFailure> errors = new List<ValidationFailure>();
@@ -46,8 +51,13 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
 		}
 
+		/// <summary>
+		/// Update a student.
+		/// </summary>
+		/// <param name="command">Command to update a student</param>
+		/// <returns>Confirmation of success</returns>
 		[HttpPut]
-		public async Task<IActionResult> Put([FromBody] StudentUpdate.Command command)
+		public async Task<IActionResult> UpdateAsync([FromBody] StudentUpdate.Command command)
 		{
 			var result = new Result<Exception, Unit>();
 			IList<ValidationFailure> errors = new List<ValidationFailure>();
@@ -69,9 +79,15 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
 		}
 
+		/// <summary>
+		/// Deactivate a student.
+		/// </summary>
+		/// <param name="id">Student id to be disabled</param>
+		/// <param name="command">Command to deactivate a student</param>
+		/// <returns>Confirmation of success</returns>
 		[HttpPatch]
 		[Route("{id:int}/disabled")]
-		public async Task<IActionResult> Deactivate(int id, [FromBody] StudentDeactivate.Command command)
+		public async Task<IActionResult> DeactivateAsync(int id, [FromBody] StudentDeactivate.Command command)
 		{
 			var result = new Result<Exception, Unit>();
 			IList<ValidationFailure> errors = new List<ValidationFailure>();
@@ -94,18 +110,28 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
 		}
 
+		/// <summary>
+		/// Get the student with the indicated Id.
+		/// </summary>
+		/// <param name="id">Student Id to be viewed</param>
+		/// <returns>Student</returns>
 		[HttpGet]
 		[Route("{id:int}")]
-		public async Task<IActionResult> Get(int id)
+		public async Task<IActionResult> GetByIdAsync(int id)
 		{
 			var result = await _mediator.Send(new StudentDetail.Query(id, GetRemoteIpAddressIPv4(), UserId, Email, UserName));
 
 			return CustomResponse(result);
 		}
 
+		/// <summary>
+		/// Delete student with the indicated Id.
+		/// </summary>
+		/// <param name="id">Student Id to be excluded</param>
+		/// <returns>Confirmation of success</returns>
 		[HttpDelete]
 		[Route("{id:int}")]
-		public async Task<IActionResult> Delete(int id)
+		public async Task<IActionResult> DeleteByIdAsync(int id)
 		{
 			var result = await _mediator.Send(new StudentDelete.Command(id, GetRemoteIpAddressIPv4(), UserId, Email, UserName));
 

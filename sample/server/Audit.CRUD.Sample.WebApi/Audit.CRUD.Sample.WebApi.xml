@@ -4,5 +4,41 @@
         <name>Audit.CRUD.Sample.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.CreateAsync(Audit.CRUD.Sample.Application.Features.Students.Handlers.StudentCreate.Command)">
+            <summary>
+            Create a student.
+            </summary>
+            <param name="command">Command to create a user</param>
+            <returns>Created user id</returns>
+        </member>
+        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.UpdateAsync(Audit.CRUD.Sample.Application.Features.Students.Handlers.StudentUpdate.Command)">
+            <summary>
+            Update a student.
+            </summary>
+            <param name="command">Command to update a user</param>
+            <returns>Confirmation of success</returns>
+        </member>
+        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.DeactivateAsync(System.Int32,Audit.CRUD.Sample.Application.Features.Students.Handlers.StudentDeactivate.Command)">
+            <summary>
+            Deactivate a student.
+            </summary>
+            <param name="id">Student id to be disabled</param>
+            <param name="command">Command to deactivate a user</param>
+            <returns>Confirmation of success</returns>
+        </member>
+        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.GetByIdAsync(System.Int32)">
+            <summary>
+            Get the student with the indicated Id.
+            </summary>
+            <param name="id">Student Id to be viewed</param>
+            <returns>Student</returns>
+        </member>
+        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.DeleteByIdAsync(System.Int32)">
+            <summary>
+            Delete student with the indicated Id.
+            </summary>
+            <param name="id">Student Id to be excluded</param>
+            <returns>Confirmation of success</returns>
+        </member>
     </members>
 </doc>

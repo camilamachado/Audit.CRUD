@@ -21,6 +21,11 @@ namespace Audit.CRUD.Sample.WebApi.Features.Users
 			_mediator = mediator;
 		}
 
+		/// <summary>
+		/// Create a user.
+		/// </summary>
+		/// <param name="command">Command to create a user</param>
+		/// <returns>Created user id</returns>
 		[AllowAnonymous]
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] UserCreate.Command command)

@@ -67,13 +67,13 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 
             public async Task<Result<Exception, Student>> Handle(Query query, CancellationToken cancellationToken)
             {
-                var studentCallback = await _studentRepository.GetByIdAsync(query.Id);
-                if (studentCallback.IsFailure)
+                var getStudentCallback = await _studentRepository.GetByIdAsync(query.Id);
+                if (getStudentCallback.IsFailure)
                 {
-                    return studentCallback.Failure;
+                    return getStudentCallback.Failure;
                 }
 
-                if (studentCallback.Success is null)
+                if (getStudentCallback.Success is null)
                 {
                     var errorNotFound = new NotFoundException($"Could not find student with id {query.Id}.");
 
@@ -85,9 +85,9 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
                                     user: new UserAuditCRUD(query.UserId, query.UserName, query.Email),
                                     location: typeof(StudentDetail).Namespace,
                                     ipAddress: query.IpAddress,
-                                    currentEntity: studentCallback.Success);
+                                    currentEntity: getStudentCallback.Success);
 
-                return studentCallback;
+                return getStudentCallback;
             }
         }
     }
