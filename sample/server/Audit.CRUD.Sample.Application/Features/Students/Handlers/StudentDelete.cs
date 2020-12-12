@@ -18,6 +18,9 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
     {
         public class Command : IRequestWithResult<Unit>
         {
+            public string Reason { get; set; }
+
+            [JsonIgnore]
             public int Id { get; set; }
 
             [JsonIgnore]
@@ -32,14 +35,6 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
             [JsonIgnore]
             public string UserName { get; set; }
 
-            public Command(int id, string ipAddress, int userId, string email, string userName)
-            {
-                Id = id;
-                IpAddress = ipAddress;
-                UserId = userId;
-                Email = email;
-                UserName = userName;
-            }
 
             public ValidationResult Validate()
             {
@@ -51,6 +46,7 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
                 public Validator()
                 {
                     RuleFor(x => x.Id).NotEmpty();
+                    RuleFor(a => a.Reason).NotEmpty().Length(1, 100);
                 }
             }
         }
@@ -89,12 +85,15 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
                     return deleteStudentCallback.Failure;
                 }
 
-                await _auditCRUD.ActionDelete(
-                                    eventName: nameof(StudentDelete),
-                                    user: new UserAuditCRUD(request.UserId, request.UserName, request.Email),
-                                    location: typeof(StudentDelete).Namespace,
-                                    ipAddress: request.IpAddress,
-                                    oldEntity: student);
+                var persistAuditLog = await _auditCRUD.ActionDelete(
+                                                        eventName: nameof(StudentDelete),
+                                                        user: new UserAuditCRUD(request.UserId, request.UserName, request.Email),
+                                                        location: typeof(StudentDelete).Namespace,
+                                                        ipAddress: request.IpAddress,
+                                                        reason: request.Reason,
+                                                        oldEntity: student);
+                if (persistAuditLog.IsFailure)
+                    return persistAuditLog.Failure;
 
                 return deleteStudentCallback.Success;
             }

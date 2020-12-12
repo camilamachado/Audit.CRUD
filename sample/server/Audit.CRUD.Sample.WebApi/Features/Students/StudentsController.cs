@@ -131,14 +131,31 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 		/// Delete student with the indicated Id.
 		/// </summary>
 		/// <param name="id">Student Id to be excluded</param>
+		/// <param name="command">Command to excluded a student</param>
 		/// <returns>Confirmation of success</returns>
 		[HttpDelete]
 		[Route("{id:int}")]
-		public async Task<IActionResult> DeleteAsync(int id)
+		public async Task<IActionResult> DeleteAsync(int id, [FromBody] StudentDelete.Command command)
 		{
-			var result = await _mediator.Send(new StudentDelete.Command(id, GetRemoteIpAddressIPv4(), UserId, Email, UserName));
+			var result = new Result<Exception, Unit>();
+			IList<ValidationFailure> errors = new List<ValidationFailure>();
 
-			return CustomResponse(result);
+			command.Id = id;
+			command.IpAddress = GetRemoteIpAddressIPv4();
+			command.UserId = UserId;
+			command.Email = Email;
+			command.UserName = UserName;
+
+			if (command.Validate().IsValid)
+			{
+				result = await _mediator.Send(command);
+			}
+			else
+			{
+				errors = command.Validate().Errors;
+			}
+
+			return command.Validate().IsValid ? CustomResponse(result) : CustomResponse(errors);
 		}
 	}
 }

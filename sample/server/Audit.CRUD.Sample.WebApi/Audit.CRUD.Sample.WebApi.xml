@@ -34,11 +34,12 @@
             <param name="id">Student Id to be viewed</param>
             <returns>Student</returns>
         </member>
-        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.DeleteAsync(System.Int32)">
+        <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.DeleteAsync(System.Int32,Audit.CRUD.Sample.Application.Features.Students.Handlers.StudentDelete.Command)">
             <summary>
             Delete student with the indicated Id.
             </summary>
             <param name="id">Student Id to be excluded</param>
+            <param name="command">Command to excluded a student</param>
             <returns>Confirmation of success</returns>
         </member>
         <member name="M:Audit.CRUD.Sample.WebApi.Features.Users.UsersController.Post(Audit.CRUD.Sample.Application.Features.Users.Handlers.UserCreate.Command)">
