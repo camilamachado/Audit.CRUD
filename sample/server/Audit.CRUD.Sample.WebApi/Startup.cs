@@ -44,11 +44,10 @@ namespace Audit.CRUD.Sample.WebApi
 			// Setting MediaTR
 			services.AddMediatrConfiguration();
 
-			var elk = new ElasticsearchSettings();
-			elk.Uri = "http://localhost:9200/";
-			elk.Index = "teste";
+			// Setting AuditCRUD
+			var elasticsearchSettings = this.Configuration.GetSection("ElasticsearchSettings").Get<ElasticsearchSettings>();
 
-			services.UseAuditCRUD(elk);
+			services.UseAuditCRUD(elasticsearchSettings);
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
