@@ -54,14 +54,17 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 		/// <summary>
 		/// Update a student.
 		/// </summary>
+		/// <param name="id">Student id to be updated</param>
 		/// <param name="command">Command to update a student</param>
 		/// <returns>Confirmation of success</returns>
 		[HttpPut]
-		public async Task<IActionResult> UpdateAsync([FromBody] StudentUpdate.Command command)
+		[Route("{id:int}")]
+		public async Task<IActionResult> UpdateAsync(int id, [FromBody] StudentUpdate.Command command)
 		{
 			var result = new Result<Exception, Unit>();
 			IList<ValidationFailure> errors = new List<ValidationFailure>();
 
+			command.Id = id;
 			command.IpAddress = GetRemoteIpAddressIPv4();
 			command.UserId = UserId;
 			command.Email = Email;
@@ -82,7 +85,7 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 		/// <summary>
 		/// Deactivate a student.
 		/// </summary>
-		/// <param name="id">Student id to be disabled</param>
+		/// <param name="id">Student Id to be disabled</param>
 		/// <param name="command">Command to deactivate a student</param>
 		/// <returns>Confirmation of success</returns>
 		[HttpPatch]
@@ -131,7 +134,7 @@ namespace Audit.CRUD.Sample.WebApi.Features.Students
 		/// <returns>Confirmation of success</returns>
 		[HttpDelete]
 		[Route("{id:int}")]
-		public async Task<IActionResult> DeleteByIdAsync(int id)
+		public async Task<IActionResult> DeleteAsync(int id)
 		{
 			var result = await _mediator.Send(new StudentDelete.Command(id, GetRemoteIpAddressIPv4(), UserId, Email, UserName));
 

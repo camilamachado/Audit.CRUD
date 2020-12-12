@@ -18,6 +18,7 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 	{
 		public class Command : IRequest<Result<Exception, Unit>>
 		{
+			[JsonIgnore]
 			public int Id { get; set; }
 			public string FirstName { get; set; }
 			public string LastName { get; set; }
@@ -45,6 +46,7 @@ namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
 			{
 				public Validator()
 				{
+					RuleFor(a => a.Id).NotEmpty();
 					RuleFor(a => a.FirstName).NotEmpty().Length(1, 50);
 					RuleFor(a => a.LastName).NotEmpty().Length(1, 100);
 					RuleFor(a => a.Age).NotEmpty();
