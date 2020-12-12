@@ -5,11 +5,22 @@
     </assembly>
     <members>
         <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.CreateAsync(Audit.CRUD.Sample.Application.Features.Students.Handlers.StudentCreate.Command)">
-            <summary>
-            Create a student.
-            </summary>
-            <param name="command">Command to create a student</param>
-            <returns>Created student id</returns>
+             <summary>
+             Create a student.
+             </summary>
+             <param name="command">Command to create a student</param>
+             <remarks>
+             Sample request:
+            
+                 POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+            
+             </remarks>
+             <returns>Created student id</returns>
         </member>
         <member name="M:Audit.CRUD.Sample.WebApi.Features.Students.StudentsController.UpdateAsync(System.Int32,Audit.CRUD.Sample.Application.Features.Students.Handlers.StudentUpdate.Command)">
             <summary>
