@@ -75,9 +75,9 @@ public class Student
 | ActionUpdate | Ao atualizar uma entidade.  |
 | ActionDelete | Ao excluir uma entidade.    |
 
- ### Exemplos abaixo:
+ ### Exemplos de utilização abaixo:
 
-1. Ao realizar a ação de criar uma entidade use o método `ActionCreate`. Exemplo:
+* Ao realizar a ação de criar uma entidade use o método `ActionCreate`. Exemplo:
 ```csharp
 public class Student
 {
@@ -105,6 +105,9 @@ public class Student
     }
 }
 ```
+
+Mais detalhes: https://github.com/camilamachado/Audit.CRUD/blob/master/sample/server/Audit.CRUD.Sample.Application/Features/Students/Handlers/StudentCreate.cs
+
 Note que o `ActionCreate` recebe alguns parâmetros, são os dados para gerar o log de auditoria.
 
 | Parâmetro     | Tipo          | Descrição                             | Obrigatório | Exemplos                                      |
@@ -116,7 +119,7 @@ Note que o `ActionCreate` recebe alguns parâmetros, são os dados para gerar o 
 | currentEntity | object        | Entidade criada.                      | sim         | Student, User, Organization                   |
 | reason        | string        | Motivo pelo qual entidade foi criado.        | não         | Aluno importado do sistema antigo|
 
-2. Ao realizar a ação de atualizar uma entidade use o método `ActionUpdate`. Exemplo:
+* Ao realizar a ação de atualizar uma entidade use o método `ActionUpdate`. Exemplo:
 ```csharp
 public class Student
 {
@@ -147,6 +150,8 @@ public class Student
 }
 ```
 
+Mais detalhes: https://github.com/camilamachado/Audit.CRUD/blob/master/sample/server/Audit.CRUD.Sample.Application/Features/Students/Handlers/StudentUpdate.cs
+
 Note que o `ActionUpdate` recebe alguns parâmetros, são os dados para gerar o log de auditoria.
 
 | Parâmetro     | Tipo          | Descrição                             | Obrigatório | Exemplos                                      |
@@ -159,7 +164,7 @@ Note que o `ActionUpdate` recebe alguns parâmetros, são os dados para gerar o 
 | oldEntity     | object        | Entidade antes da atualização.        | sim         | Student, User, Organization                   |
 | reason        | string        | Motivo pelo qual entidade foi atualizada.        | não         | Nome do aluno estava incorreto|
 
-3. Ao realizar a ação de visualizar uma entidade use o método `ActionRead`. Exemplo:
+* Ao realizar a ação de visualizar uma entidade use o método `ActionRead`. Exemplo:
 ```csharp
 public class Student
 {
@@ -189,6 +194,8 @@ public class Student
 }
 ```
 
+Mais detalhes: https://github.com/camilamachado/Audit.CRUD/blob/master/sample/server/Audit.CRUD.Sample.Application/Features/Students/Handlers/StudentDetail.cs
+
 Note que o `ActionRead` recebe alguns parâmetros, são os dados para gerar o log de auditoria.
 
 | Parâmetro     | Tipo          | Descrição                             | Obrigatório | Exemplos                                      |
@@ -200,7 +207,7 @@ Note que o `ActionRead` recebe alguns parâmetros, são os dados para gerar o lo
 | currentEntity | object        | Entidade visualizada.                  | sim         | Student, User, Organization                   |
 | reason        | string        | Motivo pelo qual entidade foi visualizada.        | não         | Consultando status do aluno |
 
-4. Ao realizar a ação de excluir uma entidade use o método `ActionDelete`. Exemplo:
+* Ao realizar a ação de excluir uma entidade use o método `ActionDelete`. Exemplo:
 ```csharp
 public class Student
 {
@@ -230,6 +237,7 @@ public class Student
 
 }
 ```
+Mais detalhes: https://github.com/camilamachado/Audit.CRUD/blob/master/sample/server/Audit.CRUD.Sample.Application/Features/Students/Handlers/StudentDelete.cs
 
 Note que o `ActionDelete` recebe alguns parâmetros, são os dados para gerar o log de auditoria.
 
@@ -240,4 +248,17 @@ Note que o `ActionDelete` recebe alguns parâmetros, são os dados para gerar o 
 | location      | string        | Onde a ação aconteceu.                | sim         | Namespace da classe, Nome do microserviço     |
 | ipAddress     | string        | Qual IP realizou a ação.              | sim         | 127.0.0.1, 192.168.128.3                      |
 | oldEntity     | object        | Entidade excluída.        | sim         | Student, User, Organization                   |
-| reason        | string        | Motivo pelo qual entidade foi excluída.        | não         | Aluno não pretende retornar ao estudos |
+| reason        | string        | Motivo pelo qual entidade foi excluída.        | não         | Dado duplicado |
+
+ ### UserAuditCRUD
+
+ Esse objeto oferece uma estrutura básica para gravar os dados do usuário que realizou a ação no objeto de log de auditoria.
+
+ | Propriedade | Tipo   | Descrição                                                         | Obrigatório | Exemplo                                 |
+|-------------|--------|-------------------------------------------------------------------|-------------|-----------------------------------------|
+| Id          | object | Identificador do usuário. Aconselhável um Guid ou número inteiro. | Não         | 1, 1ef20615-324a-420f-8f9a-1e70f4e1bf0d |
+| Name        | string | Nome do usuário.                                                  | Não         | camila, joão, guilherme                 |
+| Email       | string | Email do usuário.                                                 | Não         | camila@email.com                        |
+| IsAnonymous | bool   | Quando `true` a ação não é executado por um usuário autenticado.  | Não         | true, false                             |
+
+Apesar dos valores `Id`, `Name`, `Email` serem opcionais, para uma boa proveniência de dados estes dados são essenciais.
