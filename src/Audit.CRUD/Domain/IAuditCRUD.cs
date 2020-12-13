@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Audit.CRUD.Domain
+namespace Audit.CRUD
 {
 	/// <summary>
 	/// Interface to create audit logs according to the action taken (CRUD).

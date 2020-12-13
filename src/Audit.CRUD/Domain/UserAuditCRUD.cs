@@ -2,7 +2,7 @@
 using Audit.CRUD.Domain.Exceptions;
 using System;
 
-namespace Audit.CRUD.Domain
+namespace Audit.CRUD
 {
 	/// <summary>
 	/// Domain object that represents an user.
