@@ -11,6 +11,7 @@ using Audit.CRUD.Sample.Domain.Users;
 using Audit.CRUD.Domain;
 using System.Text.Json.Serialization;
 using Audit.CRUD.Sample.Domain.Exceptions;
+using Audit.CRUD.Sample.Infra.Extensions;
 
 namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 {
@@ -68,6 +69,7 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 				}
 
 				var user = _mapper.Map<User>(request);
+				user.Password = request.Password.GenerateHash();
 
 				var addUserCallback = await _userRepository.AddAsync(user);
 				if (addUserCallback.IsFailure)
@@ -78,11 +80,11 @@ namespace Audit.CRUD.Sample.Application.Features.Users.Handlers
 				var newUser = addUserCallback.Success;
 
 				await _auditCRUD.ActionCreate(
-										eventName: nameof(UserCreate),
-										user: new UserAuditCRUD(isAnonymous: true),
-										location: typeof(UserCreate).Namespace,
-										ipAddress: request.IpAddress,
-										currentEntity: newUser);
+									eventName: nameof(UserCreate),
+									user: new UserAuditCRUD(isAnonymous: true),
+									location: typeof(UserCreate).Namespace,
+									ipAddress: request.IpAddress,
+									currentEntity: newUser);
 
 				return newUser.Id;
 			}

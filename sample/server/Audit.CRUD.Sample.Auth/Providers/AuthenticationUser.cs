@@ -1,5 +1,6 @@
 ﻿using Audit.CRUD.Sample.Domain.Features.Users;
 using Audit.CRUD.Sample.Domain.Users;
+using Audit.CRUD.Sample.Infra.Extensions;
 using Audit.CRUD.Sample.Infra.Structs;
 using FluentValidation;
 using FluentValidation.Results;
@@ -44,7 +45,7 @@ namespace Audit.CRUD.Sample.Auth.Providers
 
             public async Task<Result<Exception, User>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _userRepository.GetByCredentials(request.Email, request.Password);
+                return await _userRepository.GetByCredentials(request.Email, request.Password.GenerateHash());
             }
 
         }
