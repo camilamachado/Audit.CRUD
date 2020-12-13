@@ -1,5 +1,4 @@
-﻿using Audit.CRUD.Domain;
-using Audit.CRUD.Sample.Domain.Exceptions;
+﻿using Audit.CRUD.Sample.Domain.Exceptions;
 using Audit.CRUD.Sample.Domain.Features.Students;
 using Audit.CRUD.Sample.Infra.Structs;
 using AutoMapper;

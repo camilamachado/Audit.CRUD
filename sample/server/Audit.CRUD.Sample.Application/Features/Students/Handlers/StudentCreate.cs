@@ -7,7 +7,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using System.Text.Json.Serialization;
 using Audit.CRUD.Sample.Domain.Features.Students;
-using Audit.CRUD.Domain;
 using Audit.CRUD.Sample.Infra.Structs;
 
 namespace Audit.CRUD.Sample.Application.Features.Students.Handlers
