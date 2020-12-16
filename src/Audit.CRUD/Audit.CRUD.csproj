@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Camila Melo Machado</Authors>
+    <Company />
+    <Description>Audit.CRUD is a library for .NET that provides an interface for persisting audit logs in Elasticsearch. Its main objective is to help developers to apply audit logs in an agile and standardized way, using technologies capable of supporting and analyzing large amounts of data.</Description>
+    <PackageTags>log;elasticsearch;audit</PackageTags>
+    <RepositoryUrl>https://github.com/camilamachado/Audit.CRUD</RepositoryUrl>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Prototype with basic functionality for persisting audit log data</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
